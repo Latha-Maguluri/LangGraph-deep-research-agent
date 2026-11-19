@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f8fa" />
+    <title>Research Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Research navigation">
+        <a class="wordmark" href="/" aria-label="Research Desk home">Research <span>Desk</span></a>
+
+        <p class="sidebar-label">WORKSPACE</p>
+        <nav class="primary-nav" aria-label="Workspace sections">
+          <button class="nav-item active" id="newResearchNav" data-view="new" type="button" aria-current="page">
+            <span class="nav-icon icon-plus" aria-hidden="true"></span><span>New Research</span>
+          </button>
+          <button class="nav-item" data-view="progress" type="button">
+            <span class="nav-icon icon-progress" aria-hidden="true"></span><span>Research Progress</span>
+          </button>
+          <button class="nav-item" data-view="evidence" type="button">
+            <span class="nav-icon icon-evidence" aria-hidden="true"></span><span>Evidence Library</span>
+          </button>
+          <button class="nav-item" data-view="report" type="button">
+            <span class="nav-icon icon-report" aria-hidden="true"></span><span>Final Report &amp; Approval</span>
+          </button>
+        </nav>
+
+        <div class="history-heading">
+          <p class="sidebar-label">RECENT RESEARCH</p>
+          <span id="historyTotal" class="history-total">0</span>
+        </div>
+        <div id="historyNotice" class="history-notice hidden" role="status"></div>
+        <div id="researchHistory" class="research-history" aria-label="Recent research runs"></div>
+        <p id="historyEmpty" class="history-empty">Your recent runs will appear here.</p>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><span aria-hidden="true">/</span><strong id="pageTitle">New Research</strong></div>
+          <div id="runChip" class="run-chip hidden" role="status"><span class="chip-dot" aria-hidden="true"></span><span id="runChipText"></span></div>
+        </header>
+
+        <div class="content-wrap">
+          <div id="runContext" class="run-context hidden">
+            <div class="context-question"><span class="section-label">CURRENT QUESTION</span><p id="runQuestion"></p></div>
+            <div class="context-id"><span class="section-label">RUN ID</span><code id="threadId"></code></div>
+          </div>
+
+          <section class="screen active" id="screen-new" data-screen="new" aria-labelledby="newTitle">
+            <div class="page-heading">
+              <span class="section-label">START A NEW INVESTIGATION</span>
+              <h1 id="newTitle">What would you like to research?</h1>
+              <p>Ask a focused question. Your research team will gather evidence and prepare a report for review.</p>
+            </div>
+            <form id="researchForm" class="card research-form">
+              <label for="questionInput">Research question</label>
+              <textarea id="questionInput" minlength="10" maxlength="1200" required placeholder="For example: Will the AI industry continue to grow over the next five years?" rows="5"></textarea>
+              <div class="form-footer">
+                <span class="field-note" id="questionCount">0 / 1,200</span>
+                <button class="button button-primary" id="startButton" type="submit">Start research <span aria-hidden="true">→</span></button>
+              </div>
+              <p class="form-error hidden" id="formError" role="alert"></p>
+            </form>
+          </section>
+
+          <section class="screen hidden" id="screen-progress" data-screen="progress" aria-labelledby="progressTitle">
+            <div class="page-heading">
+              <span class="section-label">LIVE WORKSTREAMS</span>
+              <h1 id="progressTitle">Research Progress</h1>
+              <p>Follow each parallel research task as it collects sources and findings.</p>
+            </div>
+            <div class="state-card card" aria-live="polite">
+              <span class="state-mark" id="stateMark" aria-hidden="true"></span>
+              <div class="state-text"><strong id="stateTitle">Ready to begin</strong><span id="stateDescription">Start a research question to see progress here.</span></div>
+              <span class="state-spinner hidden" id="stateSpinner" aria-hidden="true"></span>
+            </div>
+            <div class="error-banner hidden" id="errorBanner" role="alert"></div>
+            <section id="researchPlan" class="plan-card card hidden" aria-labelledby="planTitle">
+              <div class="plan-heading"><h2 id="planTitle">Research plan</h2><span class="count-label">Automatically dispatched</span></div>
+              <p id="planSummary" class="plan-summary"></p>
+              <ol id="planTasks" class="plan-tasks"></ol>
+            </section>
+            <div class="section-title-row">
+              <div><h2>Research workers</h2><p>Tasks run in parallel; findings are combined for review.</p></div>
+              <span class="count-label" id="workerCount">0 workers</span>
+            </div>
+            <div class="progress-overview card">
+              <div class="progress-overview-heading"><strong>Overall progress</strong><span id="progressCount">Waiting for a run</span></div>
+              <div class="progress-track" role="progressbar" id="overallProgress" aria-label="Completed research workers" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="overallProgressFill"></span></div>
+            </div>
+            <div id="workerList" class="worker-list card"></div>
+            <p id="workersEmpty" class="empty-state card">Start research to see the workstreams here.</p>
+          </section>
+
+          <section class="screen hidden" id="screen-evidence" data-screen="evidence" aria-labelledby="evidenceTitle">
+            <div class="page-heading">
+              <span class="section-label">COLLECTED SOURCES</span>
+              <h1 id="evidenceTitle">Evidence Library</h1>
+              <p>Review key findings separately from their source citations.</p>
+            </div>
+            <div class="section-title-row evidence-heading">
+              <div><h2 id="evidenceTabHeading">Evidence</h2><p id="evidenceTabDescription">Findings gathered by the research workers.</p></div>
+              <span class="count-label" id="evidenceCount">0 findings</span>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Evidence library views">
+              <button class="tab active" id="evidenceTab" type="button" role="tab" aria-selected="true" aria-controls="evidencePanel" data-evidence-tab="evidence">Evidence</button>
+              <button class="tab" id="citationsTab" type="button" role="tab" aria-selected="false" aria-controls="citationsPanel" data-evidence-tab="citations">Citations</button>
+            </div>
+            <div id="evidencePanel" class="tab-panel" role="tabpanel" aria-labelledby="evidenceTab">
+              <div id="evidenceList" class="evidence-list"></div>
+              <p id="evidenceEmpty" class="empty-state card">Evidence will appear here as research workers return findings.</p>
+            </div>
+            <div id="citationsPanel" class="tab-panel hidden" role="tabpanel" aria-labelledby="citationsTab">
+              <div id="citationList" class="citation-list"></div>
+              <p id="citationsEmpty" class="empty-state card">Citations will appear here as sources are collected.</p>
+            </div>
+            <section id="factCheckPanel" class="fact-check-panel card hidden" aria-labelledby="factCheckTitle">
+              <h2 id="factCheckTitle">Evidence cross-check</h2>
+              <p class="fact-check-note">Model-assisted comparison of supplied excerpts; this is not independent verification of the original sources.</p>
+              <ul id="factCheckList"></ul>
+            </section>
+          </section>
+
+          <section class="screen hidden" id="screen-report" data-screen="report" aria-labelledby="reportTitle">
+            <div class="page-heading">
+              <span class="section-label">REVIEW &amp; DECIDE</span>
+              <h1 id="reportTitle">Final Report &amp; Approval</h1>
+              <p>Read the report, consider reviewer feedback, and choose what happens next.</p>
+            </div>
+            <div id="reportEmpty" class="empty-state card">The report will appear here once research is complete.</div>
+            <div id="reportWorkspace" class="report-layout hidden">
+              <div class="report-column">
+                <div class="report-heading-row">
+                  <h2>Research report</h2>
+                  <span class="draft-label" id="reportLabel">DRAFT</span>
+                </div>
+                <article class="report-paper card" id="reportPaper" aria-label="Research report"></article>
+                <section id="reviewerFeedback" class="feedback-panel card hidden" aria-labelledby="feedbackTitle">
+                  <h3 id="feedbackTitle">Reviewer feedback</h3>
+                  <ul id="feedbackList"></ul>
+                </section>
+                <section class="approval-panel card" id="approvalPanel" aria-labelledby="approvalHeading">
+                  <div class="approval-heading">
+                    <div><span class="section-label">YOUR DECISION</span><h3 id="approvalHeading">Review the report</h3></div>
+                    <span id="approvalState" class="approval-state">Review in progress</span>
+                  </div>
+                  <p id="approvalMessage" class="approval-message"></p>
+                  <div id="decisionNote" class="decision-note hidden">
+                    <label for="decisionNotes">What should change?</label>
+                    <textarea id="decisionNotes" rows="3" maxlength="4000" placeholder="Describe the revisions you would like to see."></textarea>
+                  </div>
+                  <div class="decision-actions" id="finalDecisionActions">
+                    <button class="button button-danger" id="rejectReportButton" type="button">Reject</button>
+                    <div class="action-spacer"></div>
+                    <button class="button button-secondary" id="requestRevisionButton" type="button">Request Changes</button>
+                    <button class="button button-primary" id="approveReportButton" type="button">Approve</button>
+                  </div>
+                  <div class="decision-actions hidden" id="finalNoteActions">
+                    <button class="button button-secondary" data-cancel-note type="button">Cancel</button>
+                    <div class="action-spacer"></div>
+                    <button class="button button-primary" id="submitReportRevisionButton" type="button">Send request</button>
+                  </div>
+                </section>
+              </div>
+              <aside class="review-sidebar">
+                <section class="review-card card">
+                  <span class="section-label">QUALITY CHECK</span>
+                  <h3>Critic evaluation</h3>
+                  <div class="overall-score"><strong id="overallScore">—</strong><span>Overall score</span><span class="score-status" id="criticStatus">Pending</span></div>
+                  <div class="score-list" id="scoreList"></div>
+                  <div class="critic-issues hidden" id="criticIssues"></div>
+                  <div class="claim-audit-list hidden" id="claimAuditList"></div>
+                </section>
+                <section class="review-card card">
+                  <div class="review-card-heading"><span class="section-label">REVISIONS</span><span class="history-total" id="historyCount">0</span></div>
+                  <h3>Review history</h3>
+                  <div class="history-list" id="historyList"></div>
+                </section>
+              </aside>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

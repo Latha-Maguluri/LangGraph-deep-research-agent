@@ -1,0 +1,39 @@
+flowchart TD
+    User["User"] --> Dashboard["Research dashboard"]
+    Dashboard --> API["FastAPI service"]
+    API --> Planner["Planner<br/>Break question into 3-5 tasks"]
+    Planner --> Workers["Parallel research workers<br/>LangGraph Send"]
+
+    Workers -. "Retrieve passages" .-> Local["Chroma knowledge base<br/>Semantic and keyword retrieval"]
+    Workers -. "Search" .-> Web["Tavily web search<br/>Optional"]
+    Workers --> Aggregate["Aggregate evidence"]
+    Aggregate --> FactCheck["Fact checker<br/>Assess retrieved evidence"]
+    FactCheck --> Writer["Report writer<br/>Draft from evidence"]
+    Writer --> Critic["Critic<br/>Audit claims and score report"]
+    Critic -. "Retrieve source passages" .-> Local
+
+    Planner -.-> Models["LLM providers<br/>Models configured per role"]
+    Workers -.-> Models
+    FactCheck -.-> Models
+    Writer -.-> Models
+    Critic -.-> Models
+
+    Critic --> Decision{"Quality check"}
+    Decision -- "Failed; revisions available" --> Revision["Revise using critic feedback"]
+    Revision --> Writer
+    Decision -- "Passed, revision limit reached,<br/>or final manual revision reviewed" --> Review["Human review"]
+    Writer -. "Revision truncated;<br/>previous reviewed draft available" .-> Review
+    Review -- "Request revision, if allowed" --> Revision
+    Review -- "Approve" --> Save["Save final report"]
+    Review -- "Reject" --> Stop["End without saving"]
+
+    Review -. "Graph checkpoints state;<br/>service resumes after human decision" .-> Checkpoint[("SQLite checkpoints")]
+
+    classDef interface fill:#e8f1ff,stroke:#3674c6,color:#16365e
+    classDef agent fill:#eaf7ed,stroke:#4b925b,color:#173e20
+    classDef storage fill:#fff3dc,stroke:#b78029,color:#513c14
+    classDef decision fill:#f9e9f1,stroke:#b55c86,color:#5b2540
+    class User,Dashboard,API interface
+    class Planner,Workers,Aggregate,FactCheck,Writer,Critic,Revision agent
+    class Local,Web,Models,Checkpoint,Save storage
+    class Decision,Review,Stop decision

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+outputs/*.md
+!outputs/.gitkeep
+data/checkpoints.sqlite*
+data/chroma_db/

@@ -1,0 +1,56 @@
+[
+  {
+    "source_id": "us-treasury-ai-financial-services-2024",
+    "title": "Artificial Intelligence in Financial Services",
+    "publisher": "U.S. Department of the Treasury",
+    "publication_date": "2024-12-19",
+    "pdf_url": "https://home.treasury.gov/system/files/136/Artificial-Intelligence-in-Financial-Services.pdf",
+    "landing_page_url": "https://home.treasury.gov/news/press-releases/jy2760",
+    "focus": "Financial-sector AI use cases, opportunities, adoption, and risks"
+  },
+  {
+    "source_id": "us-treasury-ai-cybersecurity-2024",
+    "title": "Managing Artificial Intelligence-Specific Cybersecurity Risks in the Financial Services Sector",
+    "publisher": "U.S. Department of the Treasury",
+    "publication_date": "2024-03",
+    "pdf_url": "https://home.treasury.gov/system/files/136/Managing-Artificial-Intelligence-Specific-Cybersecurity-Risks-In-The-Financial-Services-Sector.pdf",
+    "landing_page_url": "https://home.treasury.gov/news/press-releases/jy2212",
+    "focus": "Cybersecurity risks and mitigations for AI in financial services"
+  },
+  {
+    "source_id": "fsb-ai-financial-stability-2024",
+    "title": "The Financial Stability Implications of Artificial Intelligence",
+    "publisher": "Financial Stability Board",
+    "publication_date": "2024-11-14",
+    "pdf_url": "https://www.fsb.org/uploads/P14112024.pdf",
+    "landing_page_url": "https://www.fsb.org/2024/11/the-financial-stability-implications-of-artificial-intelligence/",
+    "focus": "AI adoption and financial stability implications, including generative AI"
+  },
+  {
+    "source_id": "eba-ai-banking-payments-2025",
+    "title": "Rising Application of AI in EU Banking and Payments Sector",
+    "publisher": "European Banking Authority",
+    "publication_date": "2025-09",
+    "pdf_url": "https://www.eba.europa.eu/sites/default/files/2025-09/146b3558-d026-47bf-a872-f05e93ed30d2/Rising%20application%20of%20AI%20in%20EU%20banking%20and%20payments%20sector.pdf",
+    "landing_page_url": "https://www.eba.europa.eu/publications-and-media/publications/special-topic-artificial-intelligence",
+    "focus": "AI adoption, use cases, and risks in EU banking and payments"
+  },
+  {
+    "source_id": "federal-reserve-genai-stability-2025",
+    "title": "Financial Stability Implications of Generative AI: Taming the Animal Spirits",
+    "publisher": "Federal Reserve Board",
+    "publication_date": "2025-09",
+    "pdf_url": "https://www.federalreserve.gov/econres/feds/files/2025090pap.pdf",
+    "landing_page_url": "https://www.federalreserve.gov/econres/feds/financial-stability-implications-of-generative-ai-taming-the-animal-spirits.htm",
+    "focus": "Research on generative AI agents and financial-stability behavior"
+  },
+  {
+    "source_id": "nist-genai-profile-2024",
+    "title": "Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile",
+    "publisher": "National Institute of Standards and Technology",
+    "publication_date": "2024-07",
+    "pdf_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf",
+    "landing_page_url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+    "focus": "Cross-sector GenAI risks and risk-management practices; use as framework, not banking-specific evidence"
+  }
+]
